@@ -4,11 +4,11 @@ import enums.StatusQuarto;
 import enums.TipoQuarto;
 
 public class Quarto {
-    
+
     // Foi escolhido String porque existem hoteis que utilizam simbolos do alfabeto
     // ex: Quarto 04A
     private String numeroQuarto;
-    
+
     private TipoQuarto tipoQuarto;
 
     private int capacidade;
@@ -68,7 +68,13 @@ public class Quarto {
     @Override
     public String toString() {
         return "O quarto " + numeroQuarto + ", do tipo " + tipoQuarto + ", tem a capacidade máxima de " + capacidade
-                + " pessoas.\nA diária do quarto custa R$" + preco + " e, no momento, o quarto se encontra " + statusQuarto;
+                + " pessoas.\nA diária do quarto custa R$" + preco + " e, no momento, o quarto se encontra "
+                + statusQuarto;
     }
- 
+
+    // Metodo auxiliar para verificar se um quarto esta disponivel, usado em outras
+    // classes. O que evita de ter que checar sempre o se "quarto.getStatusQuarto() == StatusQuarto."DISPONIVEL"
+    public boolean isQuartoDisponivel(){
+        return this.getStatusQuarto() == StatusQuarto.DISPONÍVEL;
+    }
 }
