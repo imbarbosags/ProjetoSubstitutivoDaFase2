@@ -3,6 +3,8 @@ package gerenciadores;
 import java.util.HashSet;
 
 import entidades.Quarto;
+import entidades.Reserva;
+import enums.StatusQuarto;
 import enums.TipoQuarto;
 
 public class GerenciadorDeQuartos {
@@ -32,5 +34,31 @@ public class GerenciadorDeQuartos {
         Quarto quarto = new Quarto(numeroQuarto, tipoQuarto, capacidade, preco);
         todosQuartos.add(quarto);
         return "Novo quarto cadastrado com sucesso!";
+    }
+
+    public Quarto findQuartoByNumeroQuarto(String numeroQuarto) {
+        Quarto quarto = null;
+        for (Quarto q : todosQuartos) {
+            if (q.getNumeroQuarto().equals(numeroQuarto)) {
+                quarto = q;
+            }
+        }
+        return quarto;
+    }
+
+    private String ocuparQuarto(String quarto) {
+        Quarto quartoASerReservado = findQuartoByNumeroQuarto(quarto);
+        if (quartoASerReservado == null) {
+            return "O quarto desejado não existe";
+        }
+        quartoASerReservado.setStatusQuarto(StatusQuarto.OCUPADO);
+        return "Checkin feito no quarto " + quartoASerReservado.getNumeroQuarto() + " para o cliente: ";
+    }
+
+    public String statusQuarto(String numeroQuarto) {
+        Quarto status = findQuartoByNumeroQuarto(numeroQuarto);
+        if (status == null)
+            return "O quarto desejado não existe!";
+        return status.getStatusQuarto().toString();
     }
 }
