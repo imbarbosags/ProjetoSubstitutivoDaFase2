@@ -9,8 +9,8 @@ public class App {
         String x = gerenciadorDeQuartos.getAllQuartosDisponiveis();
         System.out.println(x);
         gerenciadorDeQuartos.cadastrarNovoQuarto("QuartoTestado", TipoQuarto.SUITE, 999, 0.5);
-        gerenciadorDeQuartos.cadastrarNovoQuarto("QuartoTestado2", TipoQuarto.CASAL, 999, 0.5);
+        gerenciadorDeQuartos.cadastrarNovoQuarto("Quarto2", TipoQuarto.CASAL, 10, 105);
         x = gerenciadorDeQuartos.getAllQuartosDisponiveis();
-        System.out.println(x);
+        System.out.println("Quartos disponiveis: \n" + x);
     }
 }

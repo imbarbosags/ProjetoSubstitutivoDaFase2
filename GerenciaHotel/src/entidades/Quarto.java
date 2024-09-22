@@ -74,7 +74,7 @@ public class Quarto {
 
     // Metodo auxiliar para verificar se um quarto esta disponivel, usado em outras
     // classes. O que evita de ter que checar sempre o se "quarto.getStatusQuarto() == StatusQuarto."DISPONIVEL"
-    public boolean isQuartoDisponivel(){
+    public boolean isDisponivel(){
         return this.getStatusQuarto() == StatusQuarto.DISPONÍVEL;
     }
 }

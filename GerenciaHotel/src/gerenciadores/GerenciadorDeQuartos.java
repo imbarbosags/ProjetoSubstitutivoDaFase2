@@ -8,16 +8,27 @@ import enums.TipoQuarto;
 public class GerenciadorDeQuartos {
     private HashSet<Quarto> todosQuartos = new HashSet<>();
 
-    public String getAllQuartosDisponiveis(){
+    public String getAllQuartosDisponiveis() {
         HashSet<String> quartosDisponiveis = new HashSet<>();
-        for (Quarto quarto: todosQuartos){
-            if(quarto.isQuartoDisponivel()){
-                quartosDisponiveis.add(quarto.getNumeroQuarto());
+        for (Quarto quarto : todosQuartos) {
+            if (quarto.isDisponivel()) {
+                String quartoEDetalhes = quarto.getNumeroQuarto() + ", " + quarto.getTipoQuarto() + ", capacidade: "
+                        + quarto.getCapacidade() + ", diaria: R$" + quarto.getPreco();
+                quartosDisponiveis.add(quartoEDetalhes);
             }
         }
-        return quartosDisponiveis.toString();
+        return formataQuartosDisponiveis(quartosDisponiveis);
     }
-    public String cadastrarNovoQuarto(String numeroQuarto, TipoQuarto tipoQuarto, int capacidade, double preco){
+
+    private String formataQuartosDisponiveis(HashSet<String> quartosDisponiveis) {
+        String output = new String();
+        for (String s : quartosDisponiveis) {
+            output += "- " + s + "\n";
+        }
+        return output;
+    }
+
+    public String cadastrarNovoQuarto(String numeroQuarto, TipoQuarto tipoQuarto, int capacidade, double preco) {
         Quarto quarto = new Quarto(numeroQuarto, tipoQuarto, capacidade, preco);
         todosQuartos.add(quarto);
         return "Novo quarto cadastrado com sucesso!";
