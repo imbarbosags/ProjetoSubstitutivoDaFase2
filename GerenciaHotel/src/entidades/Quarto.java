@@ -67,11 +67,8 @@ public class Quarto {
 
     @Override
     public String toString() {
-        return "Quarto " + numeroQuarto + ", do tipo " + tipoQuarto + ", tem a capacidade de abrigar " + capacidade
-                + " hospedes, pelo valor de " + preco + ", no momento, o quarto se encontra " + statusQuarto;
+        return "O quarto " + numeroQuarto + ", do tipo " + tipoQuarto + ", tem a capacidade máxima de " + capacidade
+                + " pessoas.\nA diária do quarto custa R$" + preco + " e, no momento, o quarto se encontra " + statusQuarto;
     }
-
-    
-
  
 }
