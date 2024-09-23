@@ -31,6 +31,8 @@ public class GerenciadorDeQuartos {
     }
 
     public String cadastrarNovoQuarto(String numeroQuarto, TipoQuarto tipoQuarto, int capacidade, double preco) {
+        if (findQuartoByNumeroQuarto(numeroQuarto) != null)
+            return "Já existe um quarto cadastrado com esse numero!";
         Quarto quarto = new Quarto(numeroQuarto, tipoQuarto, capacidade, preco);
         todosQuartos.add(quarto);
         return "Novo quarto cadastrado com sucesso!";
@@ -67,17 +69,25 @@ public class GerenciadorDeQuartos {
         return todosQuartos;
     }
 
-    public String checkOut(String quarto){
+    public String checkOut(String quarto) {
         Quarto quartoASerReservado = findQuartoByNumeroQuarto(quarto);
         if (quartoASerReservado == null) {
             return "O quarto desejado não existe";
         }
-        if(!quartosAtualmenteOcupados.contains(quartoASerReservado)){
+        if (!quartosAtualmenteOcupados.contains(quartoASerReservado)) {
             return "O quarto informado nao esta ocupado atualmente!";
         }
         quartosAtualmenteOcupados.remove(quartoASerReservado);
         quartoASerReservado.setStatusQuarto(StatusQuarto.DISPONÍVEL);
 
         return "Checkout realizado com sucesso, o valor devido eh de: ";
+    }
+
+    public String removerQuarto(String quarto){
+        Quarto quartoRemove = findQuartoByNumeroQuarto(quarto);
+        if(quartoRemove==null) return "Nao ha quarto cadastrado com esse nome!";
+        todosQuartos.remove(quartoRemove);
+        if(quartosAtualmenteOcupados.contains(quartoRemove)) quartosAtualmenteOcupados.remove(quartoRemove);
+        return "Quarto excluido com sucesso!";
     }
 }

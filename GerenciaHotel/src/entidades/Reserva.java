@@ -103,6 +103,30 @@ public class Reserva {
     public void setCheckOut(boolean checkOut) {
         this.checkOut = checkOut;
     }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + numReserva;
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Reserva other = (Reserva) obj;
+        if (numReserva != other.numReserva)
+            return false;
+        return true;
+    }
     
   
     

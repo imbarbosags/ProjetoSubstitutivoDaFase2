@@ -24,4 +24,11 @@ public class GerenciadorDeHospede {
         return hospede;
     }
 
+    public String removerHospede(String cpf){
+        Hospede hospede = getHospedeByCpf(cpf);
+        if(hospede == null) return "Nao há nenhum hospede cadastrado com esse CPF";
+        todosHospedes.remove(hospede);
+        return "Hospede removido com sucesso!";
+    }
+
 }
