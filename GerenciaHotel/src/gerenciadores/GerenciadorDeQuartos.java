@@ -9,6 +9,7 @@ import enums.TipoQuarto;
 
 public class GerenciadorDeQuartos {
     private HashSet<Quarto> todosQuartos = new HashSet<>();
+    private HashSet<Quarto> quartosReservados = new HashSet<>();
 
     public String getAllQuartosDisponiveis() {
         HashSet<String> quartosDisponiveis = new HashSet<>();

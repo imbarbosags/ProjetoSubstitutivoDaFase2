@@ -77,4 +77,5 @@ public class Quarto {
     public boolean isDisponivel(){
         return this.getStatusQuarto() == StatusQuarto.DISPONÍVEL;
     }
+
 }
