@@ -11,7 +11,6 @@ import gerenciadores.GerenciadorDeHospede;
 import gerenciadores.GerenciadorDeQuartos;
 import gerenciadores.GerenciadorDeReserva;
 
-@SuppressWarnings("unused")
 public class App {
 
     private static GerenciadorDeQuartos gerenciadorDeQuartos = new GerenciadorDeQuartos();
@@ -145,7 +144,7 @@ public class App {
         String endereco = sc.nextLine();
         System.out.print("Digite o numero de telefone do novo hospede: ");
         String numero = sc.nextLine();
-        return gerenciadorDeHospede.cadastrarNovoHospede(nome, cpf, null, endereco, numero);
+        return gerenciadorDeHospede.cadastrarNovoHospede(nome, cpf, dataNascimento, endereco, numero);
     }
 
     private static void menuGerenciadorQuartos(Scanner sc) {
