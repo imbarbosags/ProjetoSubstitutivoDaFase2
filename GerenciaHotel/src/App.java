@@ -48,23 +48,23 @@ public class App {
     }
 
     private static void menuGerenciadorReservas(Scanner sc) {
-        String menuReservas  = "Escolha uma opcao>\n(1) - Nova Reserva"+
-        "\n(2) - Cancelar reserva"+
-        "\n(3) - Realizar Checkin"+
-        "\n(4) - Realizar Checkout";
+        String menuReservas = "Escolha uma opcao>\n(1) - Nova Reserva" +
+                "\n(2) - Cancelar reserva" +
+                "\n(3) - Realizar Checkin" +
+                "\n(4) - Realizar Checkout";
         System.out.println(menuReservas);
         int escolha = sc.nextInt();
         switch (escolha) {
             case 1:
-            System.out.println(novaReserva(sc));
+                System.out.println(novaReserva(sc));
                 break;
-                case 2:
+            case 2:
                 System.out.println(cancelarReserva(sc));
                 break;
-                case 3:
+            case 3:
                 System.out.println(checkInReserva(sc));
                 break;
-                case 4:
+            case 4:
                 System.out.println(checkoutReserva(sc));
                 break;
             default:
@@ -86,6 +86,7 @@ public class App {
     }
 
     private static String novaReserva(Scanner sc) {
+        sc.nextLine();
         System.out.println("Informe o quarto que deseja reservar: ");
         String q = sc.nextLine();
         Quarto quarto = gerenciadorDeQuartos.findQuartoByNumeroQuarto(q);
@@ -150,8 +151,9 @@ public class App {
     private static void menuGerenciadorQuartos(Scanner sc) {
         String menuQuartos = "Escolha uma opcao>\n(1) - Adicionar quarto" +
                 "\n(2) - Remover quarto" +
-                "\n(3) - Ver quais quartos estão disponiveis" +
-                "\n(4) - Ver informaçoes de quarto específico";
+                "\n(3) - Ver quais quartos estão disponiveis agora" +
+                "\n(4) - Ver informaçoes de quarto específico" +
+                "\n(5) - Checar disponibilidade em periodo específico";
         System.out.println(menuQuartos);
         int escolha = sc.nextInt();
         sc.nextLine();
@@ -168,9 +170,22 @@ public class App {
             case 4:
                 System.out.println(informacoesQuarto(sc));
                 break;
+            case 5:
+                System.out.println(consultarQuartosDisponiveisPeriodo(sc));
             default:
                 break;
         }
+    }
+
+    private static String consultarQuartosDisponiveisPeriodo(Scanner sc) {
+        System.out.print("Digite a data de entrada (Formato: YYYY/MM/DD): ");
+        String dataEntradaStr = sc.nextLine();
+        System.out.print("Digite a data de saída (Formato: YYYY/MM/DD): ");
+        String dataSaidaStr = sc.nextLine();
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate dataEntrada = LocalDate.parse(dataEntradaStr, formatador);
+        LocalDate dataSaida = LocalDate.parse(dataSaidaStr, formatador);
+        return conferirQuartosDisponiveisPorData(dataEntrada, dataSaida);
     }
 
     private static String informacoesQuarto(Scanner sc) {
@@ -186,11 +201,6 @@ public class App {
         System.out.println("Insira o numero do quarto a ser removido: ");
         String quarto = sc.nextLine();
         return gerenciadorDeQuartos.removerQuarto(quarto);
-    }
-
-    private static String reserva(Quarto quarto, Hospede hospede, LocalDate dataEntrada, LocalDate dataSaida,
-            int hospedesTotais) {
-        return gerenciadorDeReserva.novaReserva(quarto, hospede, dataEntrada, dataSaida, hospedesTotais);
     }
 
     private static String conferirQuartosDisponiveisPorData(LocalDate dataEntrada, LocalDate dataSaida) {
@@ -216,14 +226,16 @@ public class App {
 
     private static String checkIn(int idReserva) {
         Reserva r = gerenciadorDeReserva.findReservaId(idReserva);
-        if (r == null) return "Não há reserva com esse id!";
+        if (r == null)
+            return "Não há reserva com esse id!";
         gerenciadorDeReserva.checkIn(r);
         return gerenciadorDeQuartos.checkIn(r.getQuartoReservado().getNumeroQuarto());
     }
 
     private static String checkOut(int idReserva) {
         Reserva r = gerenciadorDeReserva.findReservaId(idReserva);
-        if (r == null) return "Não há reserva com esse id!";
+        if (r == null)
+            return "Não há reserva com esse id!";
         gerenciadorDeQuartos.checkOut(r.getQuartoReservado().getNumeroQuarto());
         return gerenciadorDeReserva.checkOut(r);
     }
