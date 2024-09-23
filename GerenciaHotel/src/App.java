@@ -49,10 +49,61 @@ public class App {
     }
 
     private static void menuGerenciadorReservas(Scanner sc) {
-        String menuReservas  = "Escolha uma opcao>\n(1) - Nova Reserva";
+        String menuReservas  = "Escolha uma opcao>\n(1) - Nova Reserva"+
+        "\n(2) - Cancelar reserva"+
+        "\n(3) - Realizar Checkin"+
+        "\n(4) - Realizar Checkout";
         System.out.println(menuReservas);
         int escolha = sc.nextInt();
+        switch (escolha) {
+            case 1:
+            System.out.println(novaReserva(sc));
+                break;
+                case 2:
+                System.out.println(cancelarReserva(sc));
+                break;
+                case 3:
+                System.out.println(checkInReserva(sc));
+                break;
+                case 4:
+                System.out.println(checkoutReserva(sc));
+                break;
+            default:
+                break;
+        }
         sc.nextLine();
+    }
+
+    private static String checkoutReserva(Scanner sc) {
+        System.out.print("Digite o id da reserva que deseja fazer checkout: ");
+        int idReserva = sc.nextInt();
+        return checkOut(idReserva);
+    }
+
+    private static String checkInReserva(Scanner sc) {
+        System.out.print("Digite o id da reserva que deseja fazer checkin: ");
+        int idReserva = sc.nextInt();
+        return checkIn(idReserva);
+    }
+
+    private static String novaReserva(Scanner sc) {
+        System.out.println("Informe o quarto que deseja reservar: ");
+        String q = sc.nextLine();
+        Quarto quarto = gerenciadorDeQuartos.findQuartoByNumeroQuarto(q);
+        System.out.println("Informe o cpf do hospede que deseja reservar: ");
+        String h = sc.nextLine();
+        Hospede hospede = gerenciadorDeHospede.getHospedeByCpf(h);
+        System.out.print("Digite a data de entrada (Formato: YYYY/MM/DD): ");
+        String dataEntradaStr = sc.nextLine();
+        System.out.print("Digite a data de saída (Formato: YYYY/MM/DD): ");
+        String dataSaidaStr = sc.nextLine();
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate dataEntrada = LocalDate.parse(dataEntradaStr, formatador);
+        LocalDate dataSaida = LocalDate.parse(dataSaidaStr, formatador);
+        System.out.println("Digite o numero de hospedes que serão abrigados");
+        int numHospedes = sc.nextInt();
+        sc.nextLine();
+        return gerenciadorDeReserva.novaReserva(quarto, hospede, dataEntrada, dataSaida, numHospedes);
     }
 
     private static void menuGerenciadorHospedes(Scanner sc) {
@@ -158,18 +209,22 @@ public class App {
         return "Os quartos disponiveis no periodo solicitados são: " + quartosDisponiveisNoPeriodo.toString();
     }
 
-    public static String cancelarReserva(int numReserva) {
+    public static String cancelarReserva(Scanner sc) {
+        System.out.print("Insira o id da reserva que deseja cancelar: ");
+        int numReserva = sc.nextInt();
         return gerenciadorDeReserva.cancelarReserva(numReserva);
     }
 
     private static String checkIn(int idReserva) {
         Reserva r = gerenciadorDeReserva.findReservaId(idReserva);
+        if (r == null) return "Não há reserva com esse id!";
         gerenciadorDeReserva.checkIn(r);
         return gerenciadorDeQuartos.checkIn(r.getQuartoReservado().getNumeroQuarto());
     }
 
     private static String checkOut(int idReserva) {
         Reserva r = gerenciadorDeReserva.findReservaId(idReserva);
+        if (r == null) return "Não há reserva com esse id!";
         gerenciadorDeQuartos.checkOut(r.getQuartoReservado().getNumeroQuarto());
         return gerenciadorDeReserva.checkOut(r);
     }

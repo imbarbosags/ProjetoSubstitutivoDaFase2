@@ -25,6 +25,9 @@ public class GerenciadorDeReserva {
         if (dataSaida.isBefore(dataEntrada)) {
             return "Data de check-out deve ser posterior à data de check-in";
         }
+        if (hospedesTotais>quarto.getCapacidade()){
+            return "Voce esta tentando levar um numero de pessoas alem da capacidade máxima desse quarto!";
+        }
         Reserva novaReserva = new Reserva(quarto, hospede, ++contadorReservas, dataEntrada, dataSaida, hospedesTotais);
         reservas.add(novaReserva);
         return "Reserva Feita com sucesso!";
