@@ -1,10 +1,10 @@
 package entidades;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Hospede {
     private String nome;
     private String cpf;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
     private String endereco;
     private String telefone;
 
@@ -12,7 +12,7 @@ public class Hospede {
         this.cpf = cpf;
     }
 
-    public Hospede(String nome, String cpf, Date dataNascimento, String endereco, String telefone) {
+    public Hospede(String nome, String cpf, LocalDate dataNascimento, String endereco, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
@@ -31,10 +31,10 @@ public class Hospede {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
     public String getEndereco() {

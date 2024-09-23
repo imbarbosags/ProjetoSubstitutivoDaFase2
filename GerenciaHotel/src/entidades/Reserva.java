@@ -1,16 +1,18 @@
 package entidades;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Reserva {
     private Quarto quartoReservado;
     private Hospede hospedeQueReservou;
     private int numReserva;
-    private Date dataEntrada;
-    private Date dataSaida;
+    private LocalDate dataEntrada;
+    private LocalDate dataSaida;
     private int hospedesTotais;
+    private boolean checkIn;
+    private boolean checkOut;
     
     
-    public Reserva(Quarto quartoReservado, Hospede hospedeQueReservou, int numReserva, Date dataEntrada, Date dataSaida,
+    public Reserva(Quarto quartoReservado, Hospede hospedeQueReservou, int numReserva, LocalDate dataEntrada, LocalDate dataSaida,
             int hospedesTotais) {
         this.quartoReservado = quartoReservado;
         this.hospedeQueReservou = hospedeQueReservou;
@@ -18,6 +20,8 @@ public class Reserva {
         this.dataEntrada = dataEntrada;
         this.dataSaida = dataSaida;
         this.hospedesTotais = hospedesTotais;
+        checkIn = false;
+        checkOut = false;
     }
 
 
@@ -51,22 +55,22 @@ public class Reserva {
     }
 
 
-    public Date getDataEntrada() {
+    public LocalDate getDataEntrada() {
         return dataEntrada;
     }
 
 
-    public void setDataEntrada(Date dataEntrada) {
+    public void setDataEntrada(LocalDate dataEntrada) {
         this.dataEntrada = dataEntrada;
     }
 
 
-    public Date getDataSaida() {
+    public LocalDate getDataSaida() {
         return dataSaida;
     }
 
 
-    public void setDataSaida(Date dataSaida) {
+    public void setDataSaida(LocalDate dataSaida) {
         this.dataSaida = dataSaida;
     }
 
@@ -78,6 +82,26 @@ public class Reserva {
 
     public void setHospedesTotais(int hospedesTotais) {
         this.hospedesTotais = hospedesTotais;
+    }
+
+
+    public boolean isCheckIn() {
+        return checkIn;
+    }
+
+
+    public void setCheckIn(boolean checkIn) {
+        this.checkIn = checkIn;
+    }
+
+
+    public boolean isCheckOut() {
+        return checkOut;
+    }
+
+
+    public void setCheckOut(boolean checkOut) {
+        this.checkOut = checkOut;
     }
     
   

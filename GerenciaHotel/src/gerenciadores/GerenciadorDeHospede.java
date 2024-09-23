@@ -1,6 +1,5 @@
 package gerenciadores;
-
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 
 import entidades.Hospede;
@@ -8,9 +7,9 @@ import entidades.Hospede;
 public class GerenciadorDeHospede {
     private HashSet<Hospede> todosHospedes = new HashSet<>();
 
-    public String cadastrarNovoHospede(String nome, String cpf, Date dataNascimento, String endereco, String telefone) {
+    public String cadastrarNovoHospede(String nome, String cpf, LocalDate dataNascimento, String endereco, String telefone) {
         if (getHospedeByCpf(cpf) != null)
-            return "Ja existe um usuário cadastrado com esse CPF";
+            return "Ja existe um hospede cadastrado com esse CPF";
         Hospede novoHospede = new Hospede(nome, cpf, dataNascimento, endereco, telefone);
         todosHospedes.add(novoHospede);
         return "Novo hóspede cadastrado com sucesso!";

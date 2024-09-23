@@ -3,13 +3,12 @@ package gerenciadores;
 import java.util.HashSet;
 
 import entidades.Quarto;
-import entidades.Reserva;
 import enums.StatusQuarto;
 import enums.TipoQuarto;
 
 public class GerenciadorDeQuartos {
     private HashSet<Quarto> todosQuartos = new HashSet<>();
-    private HashSet<Quarto> quartosReservados = new HashSet<>();
+    private HashSet<Quarto> quartosAtualmenteOcupados = new HashSet<>();
 
     public String getAllQuartosDisponiveis() {
         HashSet<String> quartosDisponiveis = new HashSet<>();
@@ -47,13 +46,14 @@ public class GerenciadorDeQuartos {
         return quarto;
     }
 
-    private String ocuparQuarto(String quarto) {
+    public String checkIn(String quarto) {
         Quarto quartoASerReservado = findQuartoByNumeroQuarto(quarto);
         if (quartoASerReservado == null) {
             return "O quarto desejado não existe";
         }
         quartoASerReservado.setStatusQuarto(StatusQuarto.OCUPADO);
-        return "Checkin feito no quarto " + quartoASerReservado.getNumeroQuarto() + " para o cliente: ";
+        quartosAtualmenteOcupados.add(quartoASerReservado);
+        return "Checkin feito no quarto " + quartoASerReservado.getNumeroQuarto() + ".";
     }
 
     public String statusQuarto(String numeroQuarto) {
@@ -61,5 +61,23 @@ public class GerenciadorDeQuartos {
         if (status == null)
             return "O quarto desejado não existe!";
         return status.getStatusQuarto().toString();
+    }
+
+    public HashSet<Quarto> getTodosQuartos() {
+        return todosQuartos;
+    }
+
+    public String checkOut(String quarto){
+        Quarto quartoASerReservado = findQuartoByNumeroQuarto(quarto);
+        if (quartoASerReservado == null) {
+            return "O quarto desejado não existe";
+        }
+        if(!quartosAtualmenteOcupados.contains(quartoASerReservado)){
+            return "O quarto informado nao esta ocupado atualmente!";
+        }
+        quartosAtualmenteOcupados.remove(quartoASerReservado);
+        quartoASerReservado.setStatusQuarto(StatusQuarto.DISPONÍVEL);
+
+        return "Checkout realizado com sucesso, o valor devido eh de: ";
     }
 }

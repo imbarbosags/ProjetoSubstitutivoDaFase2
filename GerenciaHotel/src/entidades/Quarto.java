@@ -78,4 +78,5 @@ public class Quarto {
         return this.getStatusQuarto() == StatusQuarto.DISPONÍVEL;
     }
 
+
 }

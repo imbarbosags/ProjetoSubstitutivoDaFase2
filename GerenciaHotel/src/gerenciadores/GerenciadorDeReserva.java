@@ -1,8 +1,8 @@
 package gerenciadores;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
-
+import java.time.temporal.ChronoUnit;
 import entidades.Hospede;
 import entidades.Quarto;
 import entidades.Reserva;
@@ -11,7 +11,7 @@ public class GerenciadorDeReserva {
     private HashSet<Reserva> reservas = new HashSet<>();
     private int contadorReservas = 0;
 
-    public String novaReserva(Quarto quarto, Hospede hospede, Date dataEntrada, Date dataSaida,
+    public String novaReserva(Quarto quarto, Hospede hospede, LocalDate dataEntrada, LocalDate dataSaida,
             int hospedesTotais) {
         if (quarto == null)
             return "Quarto não existe!";
@@ -19,6 +19,12 @@ public class GerenciadorDeReserva {
             return "Não há nenhum hospede cadastrado com esse CPF!";
         if (!quarto.isDisponivel())
             return "O quarto não se encontra disponível para reserva!";
+        if (quartosIndisponiveis(dataEntrada, dataSaida).contains(quarto)) {
+            return "O quarto já está reservado para o período selecionado!";
+        }
+        if (dataSaida.isBefore(dataEntrada)) {
+            return "Data de check-out deve ser posterior à data de check-in";
+        }
         Reserva novaReserva = new Reserva(quarto, hospede, ++contadorReservas, dataEntrada, dataSaida, hospedesTotais);
         reservas.add(novaReserva);
         return "Reserva Feita com sucesso!";
@@ -47,13 +53,32 @@ public class GerenciadorDeReserva {
     // boas praticas de programacao, com um controlador dentro de outro!
     // Assim, retornamos os quartos indisponiveis, e no Main, tiramos esses quartos
     // da lista de todos quartos disponiveis
-    public HashSet<Quarto> quartosIndisponiveis(Date dataEntrada, Date dataSaida){
+    public HashSet<Quarto> quartosIndisponiveis(LocalDate dataEntrada, LocalDate dataSaida) {
         HashSet<Quarto> quartosIndisponiveis = new HashSet<>();
-        for(Reserva r: reservas){
+        for (Reserva r : reservas) {
             Quarto quartoReservado = r.getQuartoReservado();
-            if (!(dataSaida.before(r.getDataEntrada()) || dataEntrada.after(r.getDataSaida()))) {
+            if (!(dataSaida.isBefore(r.getDataEntrada()) || dataEntrada.isAfter(r.getDataSaida()))) {
                 quartosIndisponiveis.add(quartoReservado);
+            }
         }
+        return quartosIndisponiveis;
     }
-    return quartosIndisponiveis;
-}}
+
+    private double calcularValorReserva(Reserva r){
+        return r.getQuartoReservado().getPreco() * (ChronoUnit.DAYS.between(r.getDataEntrada(), r.getDataSaida())+1);
+    }
+
+    public String checkIn(Reserva r){
+        r.setCheckIn(true);
+        return ("CheckIn Realizado com sucesso!");
+    }
+
+    public String checkOut(Reserva r){
+        if (!r.isCheckIn()){
+            return "Impossivel fazer o CheckOut sem ter realizado o checkIn antes!";
+        }
+        r.setCheckOut(true);
+        cancelarReserva(r.getNumReserva());
+        return "Checkout realizado com sucesso! \nO valor da hospedagem foi: "+ calcularValorReserva(r);
+    }
+}
